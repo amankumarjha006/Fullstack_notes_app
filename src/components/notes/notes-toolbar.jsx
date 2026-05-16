@@ -111,8 +111,22 @@ export function NotesToolbar({ tags = [] }) {
             )}
             onClick={() => { setTagOpen(!tagOpen); setSortOpen(false); }}
           >
-            <SlidersHorizontal className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{currentTagLabel}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              <SlidersHorizontal className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{currentTagLabel}</span>
+            </div>
+            {currentTag !== "all" && (
+              <div
+                className="hover:bg-primary/20 rounded-sm p-0.5 ml-1 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateFilters({ tag: "all" });
+                  setTagOpen(false);
+                }}
+              >
+                <X className="h-3.5 w-3.5" />
+              </div>
+            )}
           </Button>
           {tagOpen && (
             <>
