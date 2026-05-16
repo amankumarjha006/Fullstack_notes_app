@@ -22,6 +22,8 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  notes    Note[]
+  tags     Tag[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,4 +75,57 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+// ─── Notes Models ───────────────────────────────────────────────
+
+model Note {
+  id         String   @id @default(cuid())
+  title      String   @default("Untitled")
+  content    String?  @db.Text
+  summary    String?  @db.Text
+  aiActionItems Json?
+  aiSuggestedTitle String?
+  aiGeneratedAt DateTime?
+  archived   Boolean  @default(false)
+  visibility String   @default("private")
+  shareId    String?  @unique
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  noteTags NoteTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([userId, archived])
+  @@map("notes")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  noteTags NoteTag[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([name, userId])
+  @@map("tags")
+}
+
+model NoteTag {
+  noteId String
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  tagId String
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([noteId, tagId])
+  @@map("note_tags")
 }

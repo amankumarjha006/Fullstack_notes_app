@@ -50,10 +50,18 @@ export const authConfig = {
       const isOnAuth =
         nextUrl.pathname.startsWith("/login") ||
         nextUrl.pathname.startsWith("/signup");
+      const isPublicRoute =
+        nextUrl.pathname.startsWith("/share");
       const isProtected =
         nextUrl.pathname.startsWith("/dashboard") ||
         nextUrl.pathname.startsWith("/notes") ||
-        nextUrl.pathname.startsWith("/insights");
+        nextUrl.pathname.startsWith("/insights") ||
+        nextUrl.pathname.startsWith("/archive");
+
+      // Allow public routes without auth
+      if (isPublicRoute) {
+        return true;
+      }
 
       if (isProtected && !isLoggedIn) {
         return Response.redirect(new URL("/login", nextUrl));
