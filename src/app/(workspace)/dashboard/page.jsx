@@ -164,16 +164,8 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* Quick Actions */}
           <div className="flex items-center gap-3 pt-2">
             <CreateNoteButton className="shadow-sm shadow-primary/10" />
-            <Link
-              href="/insights"
-              className="text-[13px] text-muted-foreground hover:text-foreground font-medium flex items-center gap-1 transition-colors"
-            >
-              View Insights
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
           </div>
         </div>
       </ScrollArea>

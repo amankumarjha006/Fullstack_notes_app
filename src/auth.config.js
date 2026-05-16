@@ -55,7 +55,6 @@ export const authConfig = {
       const isProtected =
         nextUrl.pathname.startsWith("/dashboard") ||
         nextUrl.pathname.startsWith("/notes") ||
-        nextUrl.pathname.startsWith("/insights") ||
         nextUrl.pathname.startsWith("/archive");
 
       // Allow public routes without auth
