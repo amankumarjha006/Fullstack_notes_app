@@ -164,7 +164,7 @@ export function AiSummaryPanel({ note, onTitleApply }) {
       </div>
 
       {generatedAt && (
-        <div className="px-4 py-2.5 text-[11px] text-center text-muted-foreground/40 border-t border-border/30 shrink-0">
+        <div suppressHydrationWarning className="px-4 py-2.5 text-[11px] text-center text-muted-foreground/40 border-t border-border/30 shrink-0">
           Generated {generatedAt.toLocaleTimeString()}
         </div>
       )}

@@ -41,7 +41,7 @@ export function NoteCard({ note }) {
           )}
           <div className="flex items-center text-[11px] text-muted-foreground/50">
             <Clock className="mr-1.5 h-3 w-3" />
-            <span>Updated {new Date(note.updatedAt).toLocaleDateString()}</span>
+            <span suppressHydrationWarning>Updated {new Date(note.updatedAt).toLocaleDateString()}</span>
           </div>
         </div>
       </div>

@@ -154,7 +154,7 @@ export function NoteEditor({ note }) {
           <Separator orientation="vertical" className="h-4 hidden sm:block" />
           <div className="hidden sm:flex items-center text-[11px] text-muted-foreground/50">
             <Clock className="mr-1 h-3 w-3" />
-            <span>
+            <span suppressHydrationWarning>
               {lastSaved.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
