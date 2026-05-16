@@ -28,7 +28,7 @@ export default async function DashboardPage() {
   return (
     <>
       <Navbar title="Dashboard" />
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 min-h-0">
         <div className="px-6 py-8 md:px-10 md:py-10 max-w-6xl mx-auto w-full space-y-8">
           {/* Page Header */}
           <div>

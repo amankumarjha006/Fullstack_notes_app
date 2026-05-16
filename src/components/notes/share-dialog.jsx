@@ -138,8 +138,8 @@ export function ShareDialog({ note }) {
                 Share Link
               </label>
               <div className="flex items-center gap-2">
-                <div className="flex-1 min-w-0 overflow-hidden rounded-lg border border-border/40 bg-muted/30 px-3 py-2">
-                  <p className="text-[13px] truncate text-foreground/70">
+                <div className="flex-1 min-w-0 rounded-lg border border-border/40 bg-muted/30 px-3 py-2">
+                  <p className="text-[13px] break-all text-foreground/70">
                     {shareUrl}
                   </p>
                 </div>

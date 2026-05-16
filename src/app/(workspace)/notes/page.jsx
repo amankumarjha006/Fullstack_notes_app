@@ -21,7 +21,7 @@ export default async function NotesPage({ searchParams }) {
   return (
     <>
       <Navbar title="All Notes" />
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 min-h-0">
         <div className="px-6 py-8 md:px-10 md:py-10 max-w-6xl mx-auto w-full">
           <div className="mb-6">
             <div className="flex items-center gap-3">
