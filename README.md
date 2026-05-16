@@ -1,182 +1,114 @@
-# AI Notes Workspace
+# AI-Powered Notes Workspace
 
-A full-stack, AI-powered collaborative notes workspace built with **Next.js 16**, **Prisma**, **Supabase PostgreSQL**, and **Groq AI**. Features intelligent note analysis, public sharing, productivity analytics, and a polished SaaS-quality interface.
+A premium, full-stack notes application featuring AI-powered summaries, intelligent tagging, public sharing, and a responsive workspace dashboard.
 
----
-
-## Features
-
-- **Smart Notes** — Create, edit, and organize with real-time auto-save
-- **AI Insights** — Generate summaries, action items, and title suggestions (Groq AI / Llama 3.3)
-- **Tagging System** — Organize notes with tags, filter by tag
-- **Search & Filtering** — Full-text search with sort options
-- **Public Sharing** — Generate shareable public links, toggle visibility
-- **Productivity Dashboard** — Weekly activity charts, top tags, usage analytics
-- **Archive System** — Archive/unarchive notes without deleting
-- **Authentication** — Google OAuth + email/password via Auth.js v5
-- **Dark Mode** — Full dark/light/system theme support
-- **Responsive** — Mobile-first design with collapsible sidebar
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router, Turbopack) |
-| **Language** | JavaScript |
-| **Styling** | Tailwind CSS v4 + shadcn/ui |
-| **Database** | Supabase PostgreSQL |
-| **ORM** | Prisma v7 (with pg driver adapter) |
-| **Auth** | Auth.js / NextAuth v5 (JWT) |
-| **AI** | Groq API (Llama 3.3 70B) |
-| **Deployment** | Vercel |
+Built with **Next.js 16 (App Router)**, **Prisma**, **PostgreSQL**, **Auth.js (NextAuth)**, and **Tailwind CSS**.
 
 ---
 
 ## Architecture
 
-```
+```text
 src/
 ├── app/
 │   ├── (auth)/          # Login & signup pages
 │   ├── (workspace)/     # Protected workspace pages
-│   │   ├── dashboard/   # Dashboard with recent notes
+│   │   ├── dashboard/   # Dashboard with recent notes & stats
 │   │   ├── notes/       # Notes list + editor
-│   │   ├── archive/     # Archived notes
-│   │   └── insights/    # Productivity analytics
+│   │   └── archive/     # Archived notes
 │   ├── share/           # Public shared note pages
 │   └── api/             # API routes
 │       ├── notes/       # CRUD, tags, share, AI
-│       ├── shared/      # Public note fetch
-│       └── insights/    # Analytics data
+│       └── shared/      # Public note fetch
 ├── components/
 │   ├── ai/              # AI summary panel
 │   ├── auth/            # Login/signup forms
-│   ├── insights/        # Dashboard charts & cards
+│   ├── insights/        # Dashboard charts & stat cards
 │   ├── layout/          # Sidebar, navbar, shell
 │   ├── notes/           # Note cards, editor, toolbar
 │   ├── tags/            # Tag input component
 │   └── ui/              # shadcn/ui primitives
 ├── lib/
-│   ├── ai/              # Groq API client
 │   ├── dal.js           # Data Access Layer
 │   ├── prisma.js        # Prisma client singleton
 │   └── validations/     # Zod schemas
 ├── auth.js              # Auth.js config (full)
 ├── auth.config.js       # Auth.js config (lightweight, for proxy)
-└── proxy.js             # Route protection (Next.js 16)
+└── proxy.js             # Route protection (Next.js 16 middleware)
 ```
 
 ---
 
-## Getting Started
+## 2. Setup Instructions
 
-### Prerequisites
+Follow these steps to get the application running on your local machine.
 
-- Node.js 18+
-- A Supabase project (free tier works)
-- A Google OAuth app (optional, for Google sign-in)
-- A Groq API key (free at https://console.groq.com)
+### How to configure environment variables
 
-### 1. Clone & Install
+Before running the application, you need to set up your environment variables. 
+1. Create a file named `.env` in the root directory of the project.
+2. Add the following keys and fill them with your own values:
+
+```env
+# Database (PostgreSQL via Supabase or similar)
+DATABASE_URL="postgresql://user:password@host:port/db"
+DIRECT_URL="postgresql://user:password@host:port/db"
+
+# Authentication (Auth.js)
+# Generate a secret using: npx auth secret (or openssl rand -base64 32)
+AUTH_SECRET="your_generated_random_secret_string"
+
+# Google OAuth (For Google Login)
+GOOGLE_CLIENT_ID="your_google_oauth_client_id"
+GOOGLE_CLIENT_SECRET="your_google_oauth_client_secret"
+
+# Application URL (Required for public sharing links)
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+# AI Integration (Groq API)
+GROQ_API_KEY="your_groq_api_key_here"
+```
+
+### How to install dependencies
+
+Ensure you have Node.js installed (v18 or higher recommended). Then, run the following command in the root directory:
 
 ```bash
-git clone https://github.com/yourusername/fullstack-notes-app.git
-cd fullstack-notes-app
 npm install
 ```
 
-### 2. Environment Variables
-
-Copy `.env.example` to `.env` and fill in your values:
+After dependencies are installed, you must push the database schema to your PostgreSQL database and generate the Prisma Client:
 
 ```bash
-cp .env.example .env
-```
-
-| Variable | Description |
-|---|---|
-| `NEXTAUTH_SECRET` | Random secret (`openssl rand -base64 32`) |
-| `NEXTAUTH_URL` | `http://localhost:3000` (local) or your Vercel URL |
-| `GOOGLE_CLIENT_ID` | From Google Cloud Console |
-| `GOOGLE_CLIENT_SECRET` | From Google Cloud Console |
-| `DATABASE_URL` | Supabase connection pooler URL (port 6543) |
-| `DIRECT_URL` | Supabase direct connection URL (port 5432) |
-| `GROQ_API_KEY` | From https://console.groq.com/keys |
-| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` or your production URL |
-
-### 3. Database Setup
-
-```bash
-npx prisma generate
 npx prisma db push
+npx prisma generate
 ```
 
-### 4. Run Development Server
+### How to run the frontend and backend
+
+Because this project is built with Next.js using the App Router, the frontend UI and the backend APIs (in `/api/*`) run simultaneously in the same process.
+
+To start the local development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Once started, open [http://localhost:3000](http://localhost:3000) in your browser. The server handles both the user interface and backend database operations.
 
----
+### How to test the application
 
-## Deployment (Vercel)
-
-### 1. Push to GitHub
-
+**1. Code Quality & Linting:**
+To check for syntax errors, unused imports, and code quality issues, run the built-in Next.js linter:
 ```bash
-git add .
-git commit -m "production ready"
-git push origin main
+npm run lint
 ```
 
-### 2. Import on Vercel
-
-1. Go to [vercel.com/new](https://vercel.com/new)
-2. Import your GitHub repository
-3. Framework: **Next.js** (auto-detected)
-
-### 3. Set Environment Variables
-
-Add all variables from `.env.example` in Vercel's project settings:
-
-- Set `NEXTAUTH_URL` to your Vercel production URL (e.g., `https://your-app.vercel.app`)
-- Set `NEXT_PUBLIC_APP_URL` to the same URL
-- Prisma auto-generates on `postinstall`
-
-### 4. Update Google OAuth
-
-Add your Vercel URL to Google OAuth authorized redirect URIs:
-```
-https://your-app.vercel.app/api/auth/callback/google
-```
-
-### 5. Deploy
-
-Click "Deploy" — Vercel handles the rest.
+**2. Manual Verification Checklist:**
+Since this project does not currently use an automated testing suite like Jest or Cypress, please perform the following manual tests to ensure core systems are working:
+* **Authentication**: Try logging in with Google and via Email/Password. Verify that protected routes (like `/dashboard`) redirect you to login if you are logged out.
+* **Database & CRUD**: Create a new note, add tags to it, update the title/content, and then archive and delete the note.
+* **AI Generation**: Open a note with sufficient text and click "Generate Insights" in the right-hand panel (or at the bottom on mobile) to test the Groq API connection.
+* **Public Sharing**: Click "Share" on a note, make it public, copy the link, and open it in an Incognito window to verify the public route (`/share/[id]`) is accessible to unauthenticated users.
 
 ---
-
-## Demo Flow
-
-1. **Landing Page** → View features, click "Get Started"
-2. **Sign Up** → Create account or use Google
-3. **Dashboard** → See workspace overview
-4. **Create Note** → Click "+ New Note"
-5. **Auto-Save** → Type content, observe save indicator
-6. **Tags** → Add tags in the editor
-7. **AI Insights** → Click "Generate Insights" in the right panel
-8. **Search & Filter** → Use toolbar filters on notes page
-9. **Share** → Click "Share" → toggle public → copy link
-10. **Public Page** → Open share link in incognito
-11. **Archive** → Archive a note, view in Archive page
-12. **Insights** → View productivity dashboard
-
----
-
-## License
-
-MIT
