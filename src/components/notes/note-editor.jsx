@@ -209,9 +209,9 @@ export function NoteEditor({ note }) {
       </div>
 
       {/* Editor area & AI Panel */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
         {/* Main Editor */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 lg:overflow-y-auto min-h-0">
           <div className="max-w-2xl mx-auto px-4 md:px-8 py-8 md:py-12">
             {/* Title input */}
             <input
@@ -240,8 +240,8 @@ export function NoteEditor({ note }) {
           </div>
         </div>
 
-        {/* AI Insights Panel (Right Sidebar on Desktop) */}
-        <div className="hidden lg:block w-80 shrink-0">
+        {/* AI Insights Panel (Right Sidebar on Desktop, Stacked on Mobile) */}
+        <div className="w-full lg:w-80 shrink-0 h-[500px] lg:h-full border-t lg:border-t-0 border-border/30">
           <AiSummaryPanel note={note} onTitleApply={handleApplyTitle} />
         </div>
       </div>
